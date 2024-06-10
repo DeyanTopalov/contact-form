@@ -1,6 +1,6 @@
-import { Josefin_Sans } from "next/font/google";
+import { Karla } from "next/font/google";
 
-export const josefinSans = Josefin_Sans({
+export const karla = Karla({
   subsets: ["latin"],
   display: "swap",
 });
