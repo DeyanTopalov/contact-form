@@ -5,9 +5,10 @@ import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
 import { Button } from "./ui/button";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { useForm } from "react-hook-form";
+import { useForm, useFormContext, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FormField } from "./ui/form";
 
 const contactUsSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -34,7 +35,14 @@ const Form = () => {
 
   const testValue = "off";
 
+  //   const handleValueChange = (value: string) => {
+  //     // Access the register function using useFormContext
+  //     const { register } = useFormContext();
+  //     register("queryType")({ target: { value } }); // Update form state
+  //   };
+
   return (
+    // <FormProvider {...Form}>
     <form onSubmit={handleSubmit(onSubmit)}>
       <Label htmlFor="firstName">First Name *</Label>
       <Input id="firstName" type="text" {...register("firstName")} />
@@ -51,12 +59,7 @@ const Form = () => {
       {errors.email && (
         <p className="text-red-500">{`${errors.email.message}`}</p>
       )}
-      <RadioGroup
-        defaultValue=""
-        id="query-type"
-        className="mt-5"
-        {...register("queryType")}
-      >
+      <RadioGroup id="query-type" className="mt-5" {...register("queryType")}>
         {errors.queryType && (
           <p className="text-red-500">{`${errors.queryType.message}`}</p>
         )}
@@ -99,13 +102,16 @@ const Form = () => {
         Submit
       </Button>
     </form>
+    // </FormProvider>
   );
 };
 
 export default Form;
 
 // Basic form structure - completed
-// apply reach-hook-form
-// apply zod
-// apply notification
+// apply reach-hook-form 50/50
+// apply zod 50/50
+// fix the radiogroup
+// fix the checkbox value
+// apply the notification
 // fix styles and add layouts as per design
