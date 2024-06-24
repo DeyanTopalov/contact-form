@@ -15,7 +15,8 @@ const contactUsSchema = z.object({
   firstName: z.string().min(1, "This field is required"),
   lastName: z.string().min(1, "This field is required"),
   email: z.string().email("Please enter a valid email address"),
-  message: z.string({ message: "This field is required" }),
+  formMessage: z.string().min(1, "This field is required"),
+
   queryType: z.enum(["General Enquiry", "Support Request"], {
     message: "Please select a query type",
   }),
@@ -47,7 +48,7 @@ const Form = () => {
     if (displayAlert) {
       const timer = setTimeout(() => {
         setDisplayAlert(false);
-      }, 1500);
+      }, 2000);
 
       // Cleanup timer if the component unmounts
       return () => clearTimeout(timer);
@@ -66,11 +67,12 @@ const Form = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormAlert
-        className={`${
+        className={`px-6 ${
           displayAlert === true
             ? "absolute inset-x-0 top-0 flex items-center justify-center"
             : "hidden"
         }`}
+        // className="absolute inset-x-0 top-0 flex items-center justify-center px-6"
       />
       <section>
         {/* Text inputs - Personal details */}
@@ -80,6 +82,7 @@ const Form = () => {
         <Input
           id="firstName"
           type="text"
+          className={`text-base ${errors.firstName ? "border-clr-red focus-visible:ring-clr-red" : "border-clr-grey-500"}`}
           {...register("firstName")}
           aria-describedby="firstName-error"
         />
@@ -98,6 +101,7 @@ const Form = () => {
         <Input
           id="lastName"
           type="text"
+          className={`text-base ${errors.lastName ? "border-clr-red focus-visible:ring-clr-red" : "border-clr-grey-500"}`}
           {...register("lastName")}
           aria-describedby="lastName-error"
         />
@@ -113,17 +117,29 @@ const Form = () => {
         <Label htmlFor="email" className="text-base font-normal">
           Email Address *
         </Label>
-        <Input id="email" type="text" {...register("email")} />
-        {errors.email && (
-          <p className="text-red-500">{`${errors.email.message}`}</p>
-        )}
+        <Input
+          id="email"
+          type="text"
+          className={`text-base ${errors.email ? "border-clr-red focus-visible:ring-clr-red" : "border-clr-grey-500"}`}
+          {...register("email")}
+          aria-describedby="email-error"
+        />
+        <div
+          id="email-error"
+          aria-live="polite"
+          className="flex h-6 w-full items-center justify-start"
+        >
+          {errors.email && (
+            <p className="text-clr-red text-base font-normal">{`${errors.email.message}`}</p>
+          )}
+        </div>
       </section>
 
       {/* Radio buttons - Query type */}
       <Controller
         render={({ field }) => (
           <RadioGroup
-            id="query-type"
+            id="queryType"
             className="mt-5"
             {...field}
             value={queryValue}
@@ -131,20 +147,39 @@ const Form = () => {
               setQueryValue(value);
               field.onChange(value);
             }}
+            aria-describedby="queryType-error"
           >
-            {errors.queryType && (
-              <p className="text-red-500">{`${errors.queryType.message}`}</p>
-            )}
-            <Label htmlFor="query-type" className="text-base font-normal">
+            <Label htmlFor="queryType" className="text-base font-normal">
               Query Type *
             </Label>
-            <div className="flex items-center gap-4 rounded-lg border border-gray-300 px-5 py-3">
-              <RadioGroupItem value="General Enquiry" id="r1" />
+            <div
+              className={`flex items-center gap-4 rounded-lg border px-5 py-3 ${errors.queryType ? "border-clr-red" : "border-clr-grey-500"}`}
+            >
+              <RadioGroupItem
+                value="General Enquiry"
+                id="r1"
+                className={`${errors.queryType ? "border-clr-red focus-visible:ring-clr-red" : ""}`}
+              />
               <Label htmlFor="r1">General Enquiry</Label>
             </div>
-            <div className="mt-5 flex items-center gap-4 rounded-lg border border-gray-300 px-5 py-3">
-              <RadioGroupItem value="Support Request" id="r2" />
+            <div
+              className={`flex items-center gap-4 rounded-lg border px-5 py-3 ${errors.queryType ? "border-clr-red" : "border-clr-grey-500"}`}
+            >
+              <RadioGroupItem
+                value="Support Request"
+                id="r2"
+                className={`${errors.queryType ? "border-clr-red focus-visible:ring-clr-red" : ""}`}
+              />
               <Label htmlFor="r2">Support Request</Label>
+            </div>
+            <div
+              id="queryType-error"
+              aria-live="polite"
+              className="flex h-6 w-full items-center justify-start"
+            >
+              {errors.queryType && (
+                <p className="text-clr-red text-base font-normal">{`${errors.queryType.message}`}</p>
+              )}
             </div>
           </RadioGroup>
         )}
@@ -152,15 +187,25 @@ const Form = () => {
         control={control}
       />
       <div className="mt-5">
-        <Label htmlFor="message" className="text-base font-normal">
+        <Label htmlFor="formMessage" className="text-base font-normal">
           Message *
         </Label>
         <Input
-          id="message"
+          id="formMessage"
           type="text"
-          className="h-20"
-          {...register("message")}
+          className={`h-20 text-base ${errors.formMessage ? "border-clr-red focus-visible:ring-clr-red" : "border-clr-grey-500"}`}
+          {...register("formMessage")}
+          aria-describedby="formMessage-error"
         />
+        <div
+          id="formMessage-error"
+          aria-live="polite"
+          className="flex h-6 w-full items-center justify-start"
+        >
+          {errors.formMessage && (
+            <p className="text-clr-red text-base font-normal">{`${errors.formMessage.message}`}</p>
+          )}
+        </div>
       </div>
       <div className="mt-5 flex items-center gap-4">
         <Controller
@@ -168,6 +213,7 @@ const Form = () => {
             <Checkbox
               id="terms"
               {...field}
+              className={`${errors.terms ? "border-clr-red focus-visible:ring-clr-red" : "border-clr-grey-500"}`}
               checked={field.value === "yes"}
               value={field.value || "no"}
               onClick={() =>
@@ -188,7 +234,7 @@ const Form = () => {
       </div>
       <Button
         type="submit"
-        className="mt-5 w-full bg-green-800 font-bold"
+        className="bg-clr-green-600 mt-5 w-full font-bold"
         disabled={isSubmitting}
       >
         Submit
@@ -199,5 +245,5 @@ const Form = () => {
 
 export default Form;
 
-// apply the notification
 // fix styles and add layouts as per design
+// refactor
