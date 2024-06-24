@@ -12,16 +12,18 @@ import FormAlert from "./FormAlert";
 import { useState, useEffect } from "react";
 
 const contactUsSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  message: z.string(),
+  firstName: z.string().min(1, "This field is required"),
+  lastName: z.string().min(1, "This field is required"),
+  email: z.string().email("Please enter a valid email address"),
+  message: z.string({ message: "This field is required" }),
   queryType: z.enum(["General Enquiry", "Support Request"], {
     message: "Please select a query type",
   }),
 
   terms: z.literal("yes", {
-    errorMap: () => ({ message: "You must accept the terms & conditions" }),
+    errorMap: () => ({
+      message: "To submit this form, please consent to being contacted",
+    }),
   }),
 });
 
@@ -30,9 +32,8 @@ const Form = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitted },
+    formState: { errors, isSubmitting },
     reset,
-    resetField,
     control,
   } = useForm<TContactUsSchema>({
     resolver: zodResolver(contactUsSchema),
@@ -73,17 +74,45 @@ const Form = () => {
       />
       <section>
         {/* Text inputs - Personal details */}
-        <Label htmlFor="firstName">First Name *</Label>
-        <Input id="firstName" type="text" {...register("firstName")} />
-        {errors.firstName && (
-          <p className="text-red-500">{`${errors.firstName.message}`}</p>
-        )}
-        <Label htmlFor="lastName">Last Name *</Label>
-        <Input id="lastName" type="text" {...register("lastName")} />
-        {errors.lastName && (
-          <p className="text-red-500">{`${errors.lastName.message}`}</p>
-        )}
-        <Label htmlFor="email">Email Address *</Label>
+        <Label htmlFor="firstName" className="text-base font-normal">
+          First Name *
+        </Label>
+        <Input
+          id="firstName"
+          type="text"
+          {...register("firstName")}
+          aria-describedby="firstName-error"
+        />
+        <div
+          id="firstName-error"
+          aria-live="polite"
+          className="flex h-6 w-full items-center justify-start"
+        >
+          {errors.firstName && (
+            <p className="text-clr-red text-base font-normal">{`${errors.firstName.message}`}</p>
+          )}
+        </div>
+        <Label htmlFor="lastName" className="text-base font-normal">
+          Last Name *
+        </Label>
+        <Input
+          id="lastName"
+          type="text"
+          {...register("lastName")}
+          aria-describedby="lastName-error"
+        />
+        <div
+          id="lastName-error"
+          aria-live="polite"
+          className="flex h-6 w-full items-center justify-start"
+        >
+          {errors.lastName && (
+            <p className="text-clr-red text-base font-normal">{`${errors.lastName.message}`}</p>
+          )}
+        </div>
+        <Label htmlFor="email" className="text-base font-normal">
+          Email Address *
+        </Label>
         <Input id="email" type="text" {...register("email")} />
         {errors.email && (
           <p className="text-red-500">{`${errors.email.message}`}</p>
@@ -106,7 +135,9 @@ const Form = () => {
             {errors.queryType && (
               <p className="text-red-500">{`${errors.queryType.message}`}</p>
             )}
-            <Label htmlFor="query-type">Query Type *</Label>
+            <Label htmlFor="query-type" className="text-base font-normal">
+              Query Type *
+            </Label>
             <div className="flex items-center gap-4 rounded-lg border border-gray-300 px-5 py-3">
               <RadioGroupItem value="General Enquiry" id="r1" />
               <Label htmlFor="r1">General Enquiry</Label>
@@ -121,7 +152,9 @@ const Form = () => {
         control={control}
       />
       <div className="mt-5">
-        <Label htmlFor="message">Message *</Label>
+        <Label htmlFor="message" className="text-base font-normal">
+          Message *
+        </Label>
         <Input
           id="message"
           type="text"
@@ -146,7 +179,7 @@ const Form = () => {
           control={control}
         />
 
-        <Label htmlFor="terms">
+        <Label htmlFor="terms" className="text-base font-normal">
           I consent to being contacted by the team *
         </Label>
         {errors.terms && (
