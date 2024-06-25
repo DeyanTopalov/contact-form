@@ -19,7 +19,7 @@ export default function RootLayout({
         className={`${karla.className} bg-clr-green-200 grid h-svh w-svw place-items-center gap-0 text-left text-lg antialiased md:h-screen md:w-full`}
       >
         <Toaster />
-        <main className="grid h-svh w-svw place-items-center px-4 md:max-w-[90rem]">
+        <main className="grid h-svh w-svw place-items-center px-4 md:max-w-[90rem] md:px-10">
           {children}
         </main>
       </body>
