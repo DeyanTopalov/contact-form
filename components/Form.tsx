@@ -73,7 +73,6 @@ const Form = () => {
             ? "fixed inset-x-0 top-0 flex items-center justify-center"
             : "hidden"
         }`}
-        // className="absolute inset-x-0 top-0 flex items-center justify-center px-6"
       />
       <section className="grid md:gap-4">
         {/* Text inputs - Personal details */}
