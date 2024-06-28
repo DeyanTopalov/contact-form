@@ -261,6 +261,5 @@ const Form = () => {
 
 export default Form;
 
-// fix styles and add layouts as per design - done
 // classes and code clean-up
 // refactor
