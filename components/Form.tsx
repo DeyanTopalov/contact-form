@@ -93,7 +93,7 @@ const Form = () => {
             className="flex h-6 w-full items-center justify-start"
           >
             {errors.firstName && (
-              <p className="text-clr-red text-base font-normal">{`${errors.firstName.message}`}</p>
+              <p className="text-base font-normal text-clr-red">{`${errors.firstName.message}`}</p>
             )}
           </div>
         </div>
@@ -114,7 +114,7 @@ const Form = () => {
             className="flex h-6 w-full items-center justify-start"
           >
             {errors.lastName && (
-              <p className="text-clr-red text-base font-normal">{`${errors.lastName.message}`}</p>
+              <p className="text-base font-normal text-clr-red">{`${errors.lastName.message}`}</p>
             )}
           </div>
         </div>
@@ -135,7 +135,7 @@ const Form = () => {
             className="flex h-6 w-full items-center justify-start"
           >
             {errors.email && (
-              <p className="text-clr-red text-base font-normal">{`${errors.email.message}`}</p>
+              <p className="text-base font-normal text-clr-red">{`${errors.email.message}`}</p>
             )}
           </div>
         </div>
@@ -161,7 +161,7 @@ const Form = () => {
             {/* Container for radio fields */}
             <div className="grid gap-4 md:grid-cols-2">
               <div
-                className={`has-[:checked]:bg-clr-green-200 flex items-center gap-4 rounded-lg border px-5 py-3 ${errors.queryType ? "border-clr-red" : "border-clr-grey-500"}`}
+                className={`flex items-center gap-4 rounded-lg border px-5 py-3 has-[:checked]:bg-clr-green-200 ${errors.queryType ? "border-clr-red" : "border-clr-grey-500"}`}
               >
                 <RadioGroupItem
                   value="General Enquiry"
@@ -171,7 +171,7 @@ const Form = () => {
                 <Label htmlFor="r1">General Enquiry</Label>
               </div>
               <div
-                className={`has-[:checked]:bg-clr-green-200 flex items-center gap-4 rounded-lg border px-5 py-3 ${errors.queryType ? "border-clr-red" : "border-clr-grey-500"}`}
+                className={`flex items-center gap-4 rounded-lg border px-5 py-3 has-[:checked]:bg-clr-green-200 ${errors.queryType ? "border-clr-red" : "border-clr-grey-500"}`}
               >
                 <RadioGroupItem
                   value="Support Request"
@@ -187,7 +187,7 @@ const Form = () => {
               className="flex h-6 w-full items-center justify-start"
             >
               {errors.queryType && (
-                <p className="text-clr-red text-base font-normal">{`${errors.queryType.message}`}</p>
+                <p className="text-base font-normal text-clr-red">{`${errors.queryType.message}`}</p>
               )}
             </div>
           </RadioGroup>
@@ -211,7 +211,7 @@ const Form = () => {
           className="flex h-6 w-full items-center justify-start"
         >
           {errors.formMessage && (
-            <p className="text-clr-red text-base font-normal">{`${errors.formMessage.message}`}</p>
+            <p className="text-base font-normal text-clr-red">{`${errors.formMessage.message}`}</p>
           )}
         </div>
       </div>
@@ -244,13 +244,13 @@ const Form = () => {
           className="flex h-auto min-h-6 w-full items-center justify-start"
         >
           {errors.terms && (
-            <p className="text-clr-red text-base font-normal">{`${errors.terms.message}`}</p>
+            <p className="text-base font-normal text-clr-red">{`${errors.terms.message}`}</p>
           )}
         </div>
       </div>
       <Button
         type="submit"
-        className="bg-clr-green-600 hover:bg-clr-grey-900 w-full cursor-pointer font-bold"
+        className="w-full cursor-pointer bg-clr-green-600 font-bold hover:bg-clr-grey-900"
         disabled={isSubmitting}
       >
         Submit
@@ -263,3 +263,4 @@ export default Form;
 
 // classes and code clean-up
 // refactor
+// test
