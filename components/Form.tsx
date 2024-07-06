@@ -45,8 +45,6 @@ const Form = () => {
     setQueryValue("");
   };
 
-  console.log("alert", displayAlert);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormAlert
@@ -242,7 +240,3 @@ const Form = () => {
 };
 
 export default Form;
-
-// classes and code clean-up
-// refactor
-// test
