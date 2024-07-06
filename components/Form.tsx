@@ -7,29 +7,11 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
+import { TContactUsSchema, contactUsSchema } from "@lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormAlert from "./FormAlert";
 import { useState, useEffect } from "react";
 
-const contactUsSchema = z.object({
-  firstName: z.string().min(1, "This field is required"),
-  lastName: z.string().min(1, "This field is required"),
-  email: z.string().email("Please enter a valid email address"),
-  formMessage: z.string().min(1, "This field is required"),
-
-  queryType: z.enum(["General Enquiry", "Support Request"], {
-    message: "Please select a query type",
-  }),
-
-  terms: z.literal("yes", {
-    errorMap: () => ({
-      message: "To submit this form, please consent to being contacted",
-    }),
-  }),
-});
-
-type TContactUsSchema = z.infer<typeof contactUsSchema>;
 const Form = () => {
   const {
     register,
