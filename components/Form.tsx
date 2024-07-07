@@ -50,7 +50,7 @@ const Form = () => {
       <FormAlert
         className={`px-6 ${
           displayAlert === true
-            ? "fixed inset-x-0 top-0 flex items-center justify-center"
+            ? "animate-slide-down fixed inset-x-0 top-0 flex items-center justify-center"
             : "hidden"
         }`}
       />
